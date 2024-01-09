@@ -18,11 +18,32 @@ router.use((request,response,next)=>{
 })
 
 router.route('/guests').get((request,response)=>{
-    dboperations.getGuests().then(result =>{
-        console.log(result);
+    dboperations.getGuests(request.headers.authorization).then(result =>{
         response.json(result[0])
     })
 })
+
+router.route('/guest/:id').get((request,response)=>{
+    dboperations.getGuest(request.params.id).then(result =>{
+        response.json(result[0])
+    })
+})
+
+router.route('/signIn/:id').get((request,response)=>{
+    dboperations.signIn(request.params.id, request.headers.authorization).then(result =>{
+        response.json(result[0])
+    })
+})
+
+router.route('/guests').post((request,response)=>{
+
+    let guest = {...request.body}
+
+    dboperations.addGuest(guest, request.headers.authorization).then(result =>{
+        response.status(201).json(result);
+    })
+})
+
 
 
 var port = process.env.PORT || 443;

@@ -1,5 +1,6 @@
 var dboperations = require('./dboperations');
 var Guest = require('./guest');
+require('dotenv').config()
 
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -46,10 +47,6 @@ router.route('/guests').post((request,response)=>{
 
 
 
-var port = process.env.PORT || 443;
+var port = process.env.PORT;
 app.listen(port);
 console.log('Order API is running at ' + port);
-
-dboperations.getGuests().then(result => {
-    console.log(result);
-})

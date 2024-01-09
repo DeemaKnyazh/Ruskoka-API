@@ -1,9 +1,10 @@
 var config = require('./dbconfig');
 const sql = require('mssql');
+require('dotenv').config()
 
 async function getGuests(auth){
     try{
-        if (authen(auth)){
+        if(authen(auth)){
         let pool = await sql.connect(config);
         let guests = await pool.request().query("SELECT * FROM guest");
         console.log("connected");
@@ -86,7 +87,7 @@ function authen(authHeader){
     if (authHeader.startsWith("Bearer ")){
         token = authHeader.substring(7, authHeader.length);
         console.log(token);
-        if(token == "ruskokaapiaccesskey1312"){
+        if(token == process.env.APIKEY){
             return true;
         }
         else{

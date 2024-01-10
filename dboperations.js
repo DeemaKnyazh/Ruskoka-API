@@ -4,15 +4,15 @@ require('dotenv').config()
 
 async function getGuests(auth){
     try{
-        // if(authen(auth)){
+        if(authen(auth)){
         let pool = await sql.connect(config);
         let guests = await pool.request().query("SELECT * FROM guest");
         console.log("connected");
         return guests.recordsets;
-    // }
-    // else{
-    //     return "error";
-    // }
+    }
+    else{
+        return "error";
+    }
     }
     catch (error){
         console.log(error);

@@ -32,6 +32,7 @@ router.route('/guest/:id').get((request,response)=>{
 
 router.route('/test').get((request,response)=>{
         response.json('test')
+        //for testing purposes
 })
 
 router.route('/signIn/:id').get((request,response)=>{

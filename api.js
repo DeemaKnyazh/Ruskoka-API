@@ -30,6 +30,10 @@ router.route('/guest/:id').get((request,response)=>{
     })
 })
 
+router.route('/test').get((request,response)=>{
+        response.json('test')
+})
+
 router.route('/signIn/:id').get((request,response)=>{
     dboperations.signIn(request.params.id, request.headers.authorization).then(result =>{
         response.json(result[0])

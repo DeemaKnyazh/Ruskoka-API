@@ -35,7 +35,7 @@ router.route('/test').get((request,response)=>{
         //for testing purposes
 })
 
-router.route('/signIn/:id').post((request,response)=>{
+router.route('/signin/:id').post((request,response)=>{
     dboperations.signIn(request.params.id, request.headers.authorization).then(result =>{
         response.status(201).json(result);
     })

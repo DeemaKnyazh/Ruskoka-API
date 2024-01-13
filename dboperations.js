@@ -46,10 +46,14 @@ async function signIn(guestId,auth){
             .query("SELECT sign FROM guest WHERE id = @input_parameter");
             sign = guest.recordset[0].sign;
             if(sign == 0){
-                pool.query('UPDATE guest SET sign = 1 WHERE id = @input_parameter');
+                await pool.request()
+                .input('input_parameter', sql.Int, guestId)
+                .query('UPDATE guest SET sign = 1 WHERE id = @input_parameter');
             }
             else{
-                pool.query('UPDATE guest SET sign = 0 WHERE id = @input_parameter');
+                await pool.request()
+                .input('input_parameter', sql.Int, guestId)
+                .query('UPDATE guest SET sign = 0 WHERE id = @input_parameter');
             }
             return guest.recordsets
         }

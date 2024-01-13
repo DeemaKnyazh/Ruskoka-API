@@ -41,7 +41,7 @@ async function signIn(guestId,auth){
     try{
         if (authen(auth)){
             let pool = await sql.connect(config);
-             let guest = await pool.request()
+            let guest = await pool.request()
             .input('input_parameter', sql.Int, guestId)
             .query("SELECT sign FROM guest WHERE id = @input_parameter");
             sign = guest.recordset[0].sign;

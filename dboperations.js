@@ -49,7 +49,7 @@ async function signIn(guestId,auth){
                 pool.query('UPDATE guest SET sign = 1');
             }
             else{
-                console.log("In")
+                pool.query('UPDATE guest SET sign = 0');
             }
             return guest.recordsets
         }

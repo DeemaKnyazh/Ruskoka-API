@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use('/api', router);
 
-//ToDo: Middleware auth, other security auth, websocket auth, websocket updating each other, websocket getting id and not updating itself.
+//ToDo: Middleware auth, other security auth, websocket auth.
 
 //Winter Palace Ball ticket api
 router.use((request,response,next)=>{
@@ -26,9 +26,6 @@ router.use((request,response,next)=>{
 
 router.route('/guests').get((request,response)=>{
     dboperations.getGuests(request.headers.authorization).then(result =>{
-        wss.clients.forEach(function each(client) {
-            client.send("test");
-         });
         response.json(result[0])
     })
 })
@@ -46,6 +43,11 @@ router.route('/test').get((request,response)=>{
 
 router.route('/signin/:id').post((request,response)=>{
     dboperations.signIn(request.params.id, request.headers.authorization).then(result =>{
+        wss.clients.forEach(function each(client) {
+            if (client.id != request.headers.client) {
+                client.send("status " + request.params.id);//Tells all connected clients that the status of that id had been switched
+            }   
+         });
         response.status(201).json(result);
     })
 })
@@ -55,6 +57,11 @@ router.route('/guests').post((request,response)=>{
     let guest = {...request.body}
 
     dboperations.addGuest(guest, request.headers.authorization).then(result =>{
+        wss.clients.forEach(function each(client) {
+            if (client.id != request.headers.client) {
+                client.send("new");//Tells all connected clients that someone has been added and to rerequest the db
+            }   
+         });
         response.status(201).json(result);
     })
 })
@@ -96,6 +103,8 @@ router.route('/campers/:id/:notes').post((request,response)=>{
         response.status(201).json(result);
     })//Add notes
 })
+
+
 
 //Websockets
 //Make a GET call to get info for a websocket connection
@@ -141,19 +150,15 @@ wss.on('connection', ws => {
     });
 
     //send immediatly a feedback to the incoming connection    
-    ws.send('Hi there, I am a WebSocket server');
+    ws.send('Hi there, I am a WebSocket server, Client.ID: ' + ws.id);
 });
 
+//Checks the connected client every 100 seconds, if it doesnt reponds it terminates it after the next 100 seconds
 setInterval(() => {
     wss.clients.forEach(ws => {
-        
         if (!ws.isAlive) return ws.terminate();
-        
         ws.isAlive = false;
-        console.log("test1")
-        ws.ping(null, false, true);
-        console.log("test2")
-
+        ws.ping();
     });
 }, 10000);
 

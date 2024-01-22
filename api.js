@@ -150,7 +150,7 @@ wss.on('connection', ws => {
     });
 
     //send immediatly a feedback to the incoming connection    
-    ws.send(ws.id);
+    ws.send('client:' + ws.id);
 });
 
 //Checks the connected client every 100 seconds, if it doesnt reponds it terminates it after the next 100 seconds

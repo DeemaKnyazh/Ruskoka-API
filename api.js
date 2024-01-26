@@ -10,11 +10,14 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 var app = express();
 var router = express.Router();
+const helmet = require('helmet')
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cors());
 app.use('/api', router);
+app.use(helmet())
+app.disable('x-powered-by')
 
 //ToDo: Middleware auth, other security auth, websocket auth.
 

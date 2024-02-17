@@ -75,6 +75,7 @@ async function addGuest(guest,auth){
             .input('name', sql.NVarChar, guest.name)
             .input('tables', sql.Int, guest.tables)
             .input('ticket', sql.NVarChar, guest.ticket)
+            .input('raffle', sql.Int, guest.raffle)
             .execute('InsertGuest');
             return insertGuest.recordsets;
         }

@@ -59,8 +59,6 @@ router.route('/guests').post((request,response)=>{
 
     let guest = {...request.body}
 
-    console.log(guest);
-
     dboperations.addGuest(guest, request.headers.authorization).then(result =>{
         wss.clients.forEach(function each(client) {
             if (client.id != request.headers.client) {

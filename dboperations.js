@@ -69,6 +69,7 @@ async function signIn(guestId,auth){
 async function addGuest(guest,auth){
     try{
         if (authen(auth)){
+        console.log("1" + guest);
         let pool = await sql.connect(config);
         let insertGuest = await pool.request()
             //.input('id', sql.Int, order.id)

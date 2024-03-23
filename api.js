@@ -72,7 +72,7 @@ router.route('/guests').post((request,response)=>{
 
 //Camper management api
 router.route('/campers/:year').get((request,response)=>{
-    dboperations.getGuest(request.params.year).then(result =>{
+    dboperations.getCampersByYear(request.params.year, request.headers.authorization).then(result =>{
         response.json(result[0])
     })//Get all the campers for that year
 })

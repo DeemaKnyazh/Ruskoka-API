@@ -19,7 +19,7 @@ async function getGuests(auth){
     }
 }
 
-async function getGuest(guestId){
+async function getGuest(guestId,auth){
     try{
         if (authen(auth)){
             let pool = await sql.connect(config);
@@ -97,6 +97,7 @@ async function getCampersByYear(year, auth){//Gets a JSON object of all the camp
             let campers = await pool.request()
                 .input('input_parameter', sql.Int, year)
                 .query('SELECT * FROM apps' + year);
+            console.log(campers.recordsets);
             return campers.recordsets
         }   
         else{

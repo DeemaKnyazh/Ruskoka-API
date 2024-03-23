@@ -84,7 +84,7 @@ router.route('/campers/').post((request,response)=>{
 })//Name, DOB, Sex, Previous Years, Russian Speaking, Swimming, Subsidy, Year, Date of Application,
 
 router.route('/campers/:id/').post((request,response)=>{
-    dboperations.signIn(request.params.id, request.headers.authorization).then(result =>{
+    dboperations.updateCamper(request.params.id, request.headers.authorization, request.query.status, request.query.session).then(result =>{
         response.status(201).json(result);
     })//Update a camper
 })

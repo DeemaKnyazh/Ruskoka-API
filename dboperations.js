@@ -109,34 +109,24 @@ async function getCampersByYear(year, auth){//Gets a JSON object of all the camp
     }
 }
 
-async function addCamper(camper,auth){//Add more fields
+async function updateCamper(camperId, auth, status, session){//Figure out
     try{
         if (authen(auth)){
-        let pool = await sql.connect(config);
-        let insertCamper = await pool.request()
-            //.input('id', sql.Int, order.id)
-            //.input('status', sql.Int, camper.status)//Defaults to Pending when first inserted
-            .input('name', sql.NVarChar, camper.name)
-            .input('birthdate', sql.DateTime, guest.dob)
-            .input('sex', sql.Bit, camper.sex)
-            .input('email', sql.NVarChar, camper.email)
-            .input('guardianOneName', sql.NVarChar, camper.guardianOneName)
-            .input('guardianOneEmail', sql.NVarChar, camper.guardianOneEmail)
-            .input('guardianOnePhone', sql.NVarChar, camper.guardianOnePhone)
-            .execute('InsertCamper');
-            return insertGuest.recordsets;
-        }
+            let pool = await sql.connect(config);
+            let camper = await pool.request()
+                .input('camperId', sql.Int, camperId)
+                .input('status', sql.NVarChar, status)
+                .input('session', sql.NVarChar, session)
+                .query('UPDATE apps2024 SET status = @status, chosenSess = @session WHERE id = @camperId')
+            return camper.recordsets
+        }   
         else{
-            return "Incorrect Or Missing API key";
+            return "error";
         }
     }
     catch (error){
         console.log(error);
     }
-}
-
-async function updateCamper(camperId, auth){//Figure out
-
 }
 
 async function camperStatus(camperId,status,auth){
@@ -158,7 +148,7 @@ async function camperStatus(camperId,status,auth){
     }
 }
 
-async function camperSession(camperId,status,auth){
+async function camperSession(camperId,session,auth){
     try{
         if (authen(auth)){
             let pool = await sql.connect(config);
@@ -219,4 +209,5 @@ module.exports = {
     signIn : signIn,
     addGuest : addGuest,
     getCampersByYear : getCampersByYear,
+    updateCamper : updateCamper,
 }

@@ -1,5 +1,5 @@
 class Camper{
-    constructor(id,timestamp,email,camper,birthday,gender,mainContact,mainPhone,mainRelation,alternateContact,alternateEmail,alternatePhone,alternateRelation,session,sessions,preferred,ruskokaEx,campEx,faith,swimming,russian,english,medical,financial,volunteering){
+    constructor(id,timestamp,email,camper,birthday,gender,mainContact,mainPhone,mainRelation,alternateContact,alternateEmail,alternatePhone,alternateRelation,session,sessions,preferred,ruskokaEx,campEx,faith,swimming,russian,english,medical,financial,volunteering,status,chosenSess){
         this.id = id;
         this.timestamp = timestamp;
         this.email = email;
@@ -25,6 +25,8 @@ class Camper{
         this.medical = medical;
         this.financial = financial;
         this.volunteering = volunteering;
+        this.status = status;
+        this.chosenSess = chosenSess;
     }
 }
 

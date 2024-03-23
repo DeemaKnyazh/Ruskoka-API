@@ -92,7 +92,7 @@ router.route('/campers/:id/').post((request,response)=>{
 router.route('/campers/:id/:status').get((request,response)=>{
     dboperations.signIn(request.params.id, request.headers.authorization).then(result =>{
         response.status(201).json(result);
-    })//Change camper status - Pending, Waitlist, Accepted, Denied
+    })//Change camper status - Pending, Waitlist, Accepted, Denie
 })
 
 router.route('/campers/:id/:session').get((request,response)=>{

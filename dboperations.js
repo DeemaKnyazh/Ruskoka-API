@@ -109,6 +109,25 @@ async function getCampersByYear(year, auth){//Gets a JSON object of all the camp
     }
 }
 
+async function getCampersById(Id, auth){//Gets a JSON object of all the campers withing that year.
+    try{
+        if (authen(auth)){
+            let pool = await sql.connect(config);
+            let campers = await pool.request()
+                .input('input_parameter', sql.Int, Id)
+                .query('SELECT * FROM apps2024 WHERE id = @input_parameter');
+            console.log(campers.recordsets);
+            return campers.recordsets
+        }   
+        else{
+            return "error";
+        }
+    }
+    catch (error){
+        console.log(error);
+    }
+}
+
 async function updateCamper(camperId, auth, status, session){//Figure out
     try{
         if (authen(auth)){
@@ -210,4 +229,5 @@ module.exports = {
     addGuest : addGuest,
     getCampersByYear : getCampersByYear,
     updateCamper : updateCamper,
+    getCampersById : getCampersById,
 }

@@ -77,6 +77,12 @@ router.route('/campers/:year').get((request,response)=>{
     })//Get all the campers for that year
 })
 
+router.route('/camper/:id').get((request,response)=>{
+    dboperations.getCampersById(request.params.id, request.headers.authorization).then(result =>{
+        response.json(result)
+    })//Get camper with that id
+})
+
 router.route('/campers/').post((request,response)=>{
     dboperations.signIn(request.headers.authorization).then(result =>{
         response.status(201).json(result);

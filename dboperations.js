@@ -96,7 +96,7 @@ async function getCampersByYear(year, auth){//Gets a JSON object of all the camp
             let pool = await sql.connect(config);
             let campers = await pool.request()
                 .input('input_parameter', sql.Int, year)
-                .query("SELECT * FROM campers WHERE year = @input_parameter");
+                .query('SELECT * FROM apps' + year);
             return campers.recordsets
         }   
         else{
@@ -216,5 +216,6 @@ module.exports = {
     getGuests : getGuests,
     getGuest : getGuest,
     signIn : signIn,
-    addGuest : addGuest
+    addGuest : addGuest,
+    getCampersByYear : getCampersByYear,
 }
